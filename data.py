@@ -1,5 +1,5 @@
 import pandas as pd
-
+import re
 """
 All possible dictionary entries are:
 
@@ -12,14 +12,22 @@ awards, numRatings, ratingsByStars, likedPercent, setting, coverImg, bbeScore, b
 All currently used entries are:
 
 title, series,  author,  rating,  language,  
-genres,  characters, publisher,  pages,  likedPercent, price
+genres,  pages,  likedPercent
 """
 
 def get_data(data_file):
     df = pd.read_csv(data_file, usecols = ['title','series', 'author', 'rating', 'language', 
-                            'genres', 'characters','publisher', 'pages', 'likedPercent','price'])
-    # print(df[['characters']])
-    return df
-    
+                            'genres', 'pages', 'likedPercent'])
+    df_lst = df.loc[:, :].values.tolist()
+    genres_set = set()
+    # fixing genres to a list of strings instead of concurrent string
+    i = 0
+    for row in df_lst:
+        genres = re.sub("[']","",row[5][1:-1]).split(', ')
+        df_lst[i][5] = genres
+        i += 1
+        for genre in genres:
+            genres_set.add(genre)
 
-get_data("books_data.csv")
+    return df_lst, genres_set
+
