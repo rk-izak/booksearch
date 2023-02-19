@@ -1,8 +1,14 @@
+"""
+This script is only used to print messages in the main file and acts purely as a template.
+It is used to not trash the main script with ASCII art. If needed, more messages might be added.
+"""
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 class Messages:
+    """Messages put in class for easier usage"""
     def print_book(self):
+        """ASCII art of book"""
         print("""
                                 ████████                      
                             ████▓▓▓▓▓▓▓▓████                  
@@ -21,8 +27,8 @@ class Messages:
                                 ████▒▒▓▓▓▓░░░░████▓▓          
                                     ██████████                
 """)
-        
     def print_hello(self):
+        """ASCII art of welcome to (app/site name) message"""
         print("""
 ░██╗░░░░░░░██╗███████╗██╗░░░░░░█████╗░░█████╗░███╗░░░███╗███████╗  ████████╗░█████╗░
 ░██║░░██╗░░██║██╔════╝██║░░░░░██╔══██╗██╔══██╗████╗░████║██╔════╝  ╚══██╔══╝██╔══██╗
@@ -37,11 +43,11 @@ class Messages:
     ██╔══██╗██╔══╝░░░╚═══██╗░░░██║░░░██╔══██╗██║░░██║██║░░██║██╔═██╗░░╚═══██╗╚═╝
     ██████╦╝███████╗██████╔╝░░░██║░░░██████╦╝╚█████╔╝╚█████╔╝██║░╚██╗██████╔╝██╗
     ╚═════╝░╚══════╝╚═════╝░░░░╚═╝░░░╚═════╝░░╚════╝░░╚════╝░╚═╝░░╚═╝╚═════╝░╚═╝""")
-        
     def print_goodbye(self):
+        """ASCII art of goodbye message"""
         print("""
                     Thank you for using BestBooks!
-                    
+
         ░██████╗░░█████╗░░█████╗░██████╗░██████╗░██╗░░░██╗███████╗██╗
         ██╔════╝░██╔══██╗██╔══██╗██╔══██╗██╔══██╗╚██╗░██╔╝██╔════╝██║
         ██║░░██╗░██║░░██║██║░░██║██║░░██║██████╦╝░╚████╔╝░█████╗░░██║

@@ -1,19 +1,23 @@
+"""Template for LinkedList implementation in Python"""
 from node import Node
 
-
 class LinkedList:
+    """Generic Python LinkedList"""
     def __init__(self, value=None):
         self.head_node = Node(value)
 
     def get_head_node(self):
+        """Return current LL head node"""
         return self.head_node
 
     def insert_beginning(self, new_value):
+        """Insert new head node"""
         new_node = Node(new_value)
         new_node.set_next_node(self.head_node)
         self.head_node = new_node
 
     def stringify_list(self):
+        """Get all entries of LL as a stringified list"""
         string_list = ""
         current_node = self.head_node
         while current_node:
@@ -22,6 +26,7 @@ class LinkedList:
         return string_list
 
     def remove_node(self, value_to_remove):
+        """Remove node and refactor LL"""
         current_node = self.head_node
         if current_node.get_value() == value_to_remove:
             self.head_node = current_node.get_next_node()

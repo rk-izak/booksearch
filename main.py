@@ -39,6 +39,7 @@ def main():
             "\nWhat book genre would you like to read today? \nType the beggining of that genre and press enter to see if it's here!\n")).lower()
         matching_genres = []
         current_genre = genres_ll.get_head_node()
+
         while current_genre is not None:
             if str(current_genre.value).lower().startswith(usr_input):
                 matching_genres.append(current_genre.value)
@@ -62,7 +63,7 @@ def main():
                 if os.path.exists(str(selected_genre)+'.txt'):
                     overwrite = str(input('\nYou already have a file with this genre, would you like to overwrite? [y/n]\n'))[0].lower()
                     if overwrite == 'y':
-                        with open(str(selected_genre)+'.txt', 'w') as file:
+                        with open(str(selected_genre)+'.txt', 'w', encoding = "utf-8") as file:
                             print('\nOverwriting!')
                     else:
                         print('\nSkipping...')
@@ -70,59 +71,63 @@ def main():
                         if repeat_search == 'y':
                             selected_genre = ""
                             continue
-                        else:
-                            messages.print_goodbye()
-                            break
-
-
+                        messages.print_goodbye()
+                        break
                 else:
-                    with open(str(selected_genre)+'.txt', 'w') as file:
+                    with open(str(selected_genre)+'.txt', 'w', encoding = "utf-8") as file:
                         print('\nCreating file!')
+                # filtering section!
+                # sleep in case user makes a mistake so the msg is readable
+                sleep_time = 2
+
                 # checking for pages-range
                 set_pages = str(input('\nWould you like to set min-max pages filter? If no, all books will be listed. [y/n]\n'))[0].lower()
                 set_pages_min = False
                 set_pages_max = False
                 min_pages = 0
                 max_pages = 10**9
+
                 if set_pages == 'y':
                     min_pages = input('\nWhat should the minimum page count? Please, enter an integer.\n')
                     max_pages =  input('\nWhat should the maximum page count? Please, enter an integer.\n')
-                    # sleep in case user makes a mistake so the msg is readable
-                    sleep_time = 2
                     try:
                         min_pages = int(min_pages)
                         set_pages_min = True
-                    except:
+                    except ValueError:
                         print(f'\n"{min_pages}" is not an integer! Skipping min page filter!')
                         time.sleep(sleep_time)
                     try:
                         max_pages = int(max_pages)
                         set_pages_max = True
-                    except:
+                    except ValueError:
                         print(f'\n"{max_pages}" is not an integer! Skipping max page filter!')
                         time.sleep(sleep_time)
+
                 # checking for minimum rating
                 set_rating = str(input('\nWould you like to set a min rating filter? If no, all books will be listed. [y/n]\n'))[0].lower()
                 min_rating = 0.00
                 set_min_rating = False
+
                 if set_rating == 'y':
                     min_rating =  input('\nWhat should the minimum rating be? Please, enter float in range 0.00-5.00.\n')
                     try:
                         min_rating = float(min_rating)
                         set_min_rating = True
-                    except:
+                    except ValueError:
                         print(f'\n"{min_rating}" is not a float! Skipping min rating filter!')
                         time.sleep(sleep_time)
+
                 # checking for minimum liked percentage
                 set_percentage = str(input('\nWould you like to set a min liked by % of readers filter? If no, all books will be listed. [y/n]\n'))[0].lower()
                 min_percentage = 0
                 set_min_percentage = False
+
                 if set_percentage == 'y':
                     min_percentage =  input('\nWhat should the minimum liked by % be? Please, enter an integer in range 0-100.\n')
                     try:
                         min_percentage = int(min_percentage)
                         set_min_percentage = True
-                    except:
+                    except ValueError:
                         print(f'\n"{min_percentage}" is not an integer! Skipping min liked by % filter!')
                         time.sleep(sleep_time)
 
@@ -137,15 +142,19 @@ def main():
                                 if set_pages_min and int(current_book_data[6]) < min_pages:
                                     current_book = current_book.get_next_node()
                                     continue
+
                                 if set_pages_max and int(current_book_data[6]) > max_pages:
                                     current_book = current_book.get_next_node()
                                     continue
+
                                 if set_min_rating and float(current_book_data[3]) < min_rating:
                                     current_book = current_book.get_next_node()
                                     continue
+
                                 if set_min_percentage and int(current_book_data[7]) < min_percentage:
                                     current_book = current_book.get_next_node()
                                     continue
+
                                 if counter < 10:
                                     print('\n======================================')
                                     print(f'Title: {current_book_data[0]}')
@@ -168,18 +177,18 @@ def main():
                                 file.write(f'Liked percentage: {current_book_data[7]}%\n')
                                 file.write('\n')
                                 counter += 1
+
                                 if counter == 10:
                                     print('\nThe number of found books exceeded 10! No more entries will be printed.')
                                     print(f'Instead, all entries can be found in the {selected_genre}.txt file!')
                         current_book = current_book.get_next_node()
                 if counter == 0:
                     print(f'\nSorry! It appears our database has no complete data for any books in the {selected_genre} genre')
-                    print(f'Pleae, create a GitHub issue or send an email directly to: radoslawizak@gmail.com!')
+                    print('Pleae, create a GitHub issue or send an email directly to: radoslawizak@gmail.com!')
                     # deleting empty file
                     os.remove(str(selected_genre)+'.txt')
             else:
                 continue
-
             # asking if the user wants to repeat search
             repeat_search = str(input(("\nWould you like to repeat and search for other genres? [y/n]\n")))[0].lower()
             if repeat_search == 'y':
