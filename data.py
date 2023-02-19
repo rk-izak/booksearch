@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import re
 """
 All possible dictionary entries are:
@@ -18,6 +19,8 @@ genres,  pages,  likedPercent
 def get_data(data_file):
     df = pd.read_csv(data_file, usecols = ['title','series', 'author', 'rating', 'language', 
                             'genres', 'pages', 'likedPercent'])
+    # changing all nan to str 'NaN'
+    df = df.replace(np.nan, None)
     df_lst = df.loc[:, :].values.tolist()
     genres_set = set()
     # fixing genres to a list of strings instead of concurrent string
@@ -28,6 +31,6 @@ def get_data(data_file):
         i += 1
         for genre in genres:
             genres_set.add(genre)
-
-    return df_lst, genres_set
+    genres_lst = list(genres_set)
+    return df_lst, genres_lst
 
